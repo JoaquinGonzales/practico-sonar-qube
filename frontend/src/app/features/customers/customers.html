@@ -1,0 +1,118 @@
+<div class="container py-4">
+
+    <div class="card shadow-sm rounded-4 mb-4">
+        <div class="card-body">
+
+            <h3 class="mb-3">
+                <i class="bi bi-people"></i> Gestión de Clientes
+            </h3>
+
+            <!-- Formulario -->
+            <form (submit)="saveCustomer(); $event.preventDefault()">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Nombre</label>
+                        <input type="text" class="form-control form-control-lg rounded-3"
+                            [value]="formCustomer().firstName"
+                            (input)="updateFormField('firstName', $event.target.value)" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Apellido</label>
+                        <input type="text" class="form-control form-control-lg rounded-3"
+                            [value]="formCustomer().lastName" (input)="updateFormField('lastName', $event.target.value)"
+                            required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Correo electrónico</label>
+                        <input type="email" class="form-control form-control-lg rounded-3"
+                            [value]="formCustomer().email" (input)="updateFormField('email', $event.target.value)"
+                            required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Teléfono</label>
+                        <input type="text" class="form-control form-control-lg rounded-3" [value]="formCustomer().phone"
+                            (input)="updateFormField('phone', $event.target.value)" />
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Dirección</label>
+                        <input type="text" class="form-control form-control-lg rounded-3"
+                            [value]="formCustomer().address"
+                            (input)="updateFormField('address', $event.target.value)" />
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+                    <button class="btn btn-primary btn-lg me-2 rounded-3">
+                        <i class="bi bi-save"></i>
+                        {{ editingCustomer() ? 'Actualizar' : 'Crear' }}
+                    </button>
+
+                    @if (editingCustomer()) {
+                    <button type="button" class="btn btn-secondary btn-lg rounded-3" (click)="cancelEdit()">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </button>
+                    }
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Lista de Clientes -->
+    <div class="card shadow-sm rounded-4">
+        <div class="card-body">
+
+            <h4 class="mb-3"><i class="bi bi-list-ul"></i> Listado</h4>
+
+            @if (loading()) {
+            <div class="alert alert-info">
+                <i class="bi bi-arrow-clockwise"></i> Cargando...
+            </div>
+            }
+
+            @if (!loading() && customers().length === 0) {
+            <div class="alert alert-warning">
+                <i class="bi bi-exclamation-triangle"></i> No hay clientes.
+            </div>
+            }
+
+            @if (!loading() && customers().length > 0) {
+
+            <ul class="list-group">
+
+                @for (customer of customers(); track customer.id) {
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+
+                    <div>
+                        <strong>{{ customer.firstName }} {{ customer.lastName }}</strong>
+                        <br />
+                        <small class="text-muted">{{ customer.email }}</small>
+                    </div>
+
+                    <div>
+                        <button class="btn btn-outline-primary btn-sm me-2 rounded-3" (click)="editCustomer(customer)">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button class="btn btn-outline-danger btn-sm rounded-3" (click)="deleteCustomer(customer.id!)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+
+                </li>
+                }
+
+            </ul>
+            }
+
+        </div>
+    </div>
+</div>

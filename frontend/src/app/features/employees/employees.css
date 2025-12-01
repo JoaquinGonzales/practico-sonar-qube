@@ -1,0 +1,13 @@
+.card {
+    border: none;
+}
+
+.list-group-item {
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+
+.form-control-lg {
+    font-size: 1rem;
+    padding: 0.65rem 1rem;
+}
