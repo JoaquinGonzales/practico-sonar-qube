@@ -26,8 +26,10 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
+      - name: Build backend
+        run: mvn -B package
+        working-directory: backend
+
 
       - name: Run tests
         run: mvn test
@@ -37,6 +39,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
+          projectBaseDir: backend
           args: >
             -Dsonar.organization=${{ secrets.SONAR_ORG }}
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
