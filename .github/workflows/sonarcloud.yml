@@ -23,13 +23,18 @@ jobs:
           java-version: '17'
 
       - name: Build backend
-        working-directory: backend        # <<< IMPORTANTE
+        working-directory: backend
         run: mvn -B clean verify
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarqube-scan-action@v5
         with:
-          projectBaseDir: backend        # <<< IMPORTANTE
+          projectBaseDir: backend
+          args: >
+            -Dsonar.organization=${{ secrets.SONAR_ORG }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.sources=src/main/java
+            -Dsonar.tests=src/test/java
+            -Dsonar.java.binaries=target/classes
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_SCANNER_OPTS: "-Xmx1G"
