@@ -13,7 +13,7 @@ export class ApiService {
 
   private http = inject(HttpClient);
 
-  private baseUrl = 'http://localhost:8080/api';
+  private baseUrl = 'http://backend:8080/api';
 
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(`${this.baseUrl}/customers`);

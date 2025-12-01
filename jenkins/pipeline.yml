@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+
+    triggers {
+        pollSCM('H/5 * * * *')  // Revisa cada 5 minutos si hubo cambios en develop
+    }
+
+    stages {
+        stage('Clonar repositorio') {
+            steps {
+                echo "Descargando aplicación desde GitHub (rama develop)..."
+
+                git branch: 'develop',
+                    url: 'https://github.com/JuanJoseMirandaM/practico-ci-cd.git'
+            }
+        }
+    }
+}
